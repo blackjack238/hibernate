@@ -1,14 +1,11 @@
-package org.example;
-
-import lombok.Getter;
+package org.example.Hibernate;
 
 
-import org.flywaydb.core.Flyway;
-import org.hibernate.Session;
+import org.example.entitiy.Client;
+import org.example.entitiy.Planet;
+import org.example.entitiy.Ticket;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
-import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -31,6 +28,7 @@ public class HibernateUtil {
         Metadata metadata = new MetadataSources(registry)
                 .addAnnotatedClass(Client.class)
                 .addAnnotatedClass(Planet.class)
+                .addAnnotatedClass(Ticket.class)
                 .getMetadataBuilder()
                 .build();
 

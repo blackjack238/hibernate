@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entitiy;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,29 +6,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table
-public class Planet {
+@Table(name = "Client")
+public class Client {
     @Id
-    private String id;
+    private int id;
     @Column
     private String name;
 
-
-    public Planet() {
+    public Client(String name1) {
+        name=name1;
     }
 
-    // Конструктор з параметрами
-    public Planet(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    // Геттери та сеттери
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -40,5 +33,3 @@ public class Planet {
         this.name = name;
     }
 }
-
-

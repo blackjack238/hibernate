@@ -1,6 +1,8 @@
-package org.example;
+package org.example.CRUD;
 
-import org.example.Planet;
+import org.example.CRUD.CrudOperationException;
+import org.example.entitiy.Planet;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,19 +15,17 @@ public class PlanetCrudService {
         this.sessionFactory = sessionFactory;
     }
 
-    public void savePlanet(Planet planet) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.save(planet);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
+    public void savePlanet(Planet planet) throws CrudOperationException {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
+            session.saveOrUpdate(planet);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            throw new CrudOperationException("Помилка при збереженні клієнта.", e);
         }
     }
+
 
     public void updatePlanet(Planet planet) {
         Transaction transaction = null;
@@ -41,17 +41,14 @@ public class PlanetCrudService {
         }
     }
 
-    public void deletePlanet(Planet planet) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
+    public void deletePlanet(Planet planet) throws CrudOperationException {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
             session.delete(planet);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            throw new CrudOperationException("Помилка при видаленні клієнта.", e);
         }
     }
 
